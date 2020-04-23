@@ -340,7 +340,7 @@ Object
 														typeof
 														(
 															(
-																result
+																entity
 																.constructor
 															)
 															.namespace
@@ -351,7 +351,7 @@ Object
 											&&	(
 														(
 															(
-																result
+																entity
 																.constructor
 																.namespace
 															)
@@ -363,7 +363,7 @@ Object
 											&&	(
 														(
 															(
-																result
+																entity
 																.constructor
 															)
 															.namespace
