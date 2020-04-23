@@ -1,0 +1,33 @@
+{
+  "name": "@volkovasystem/result",
+  "version": "0.0.0",
+  "description": "Result class interface for procedure return value.",
+  "main": "result.js",
+  "scripts": {
+    "test": "node ./result.test.js",
+    "minify-module": "npx terser result.module.js --compress --output result.js",
+    "modularize": "npx babel --plugins @babel/plugin-transform-modules-umd result.js --out-file result.js",
+    "minify": "npx terser result.js --compress --output result.js",
+    "build": "npm run minify-module && npm run modularize && npm run minify",
+    "prepublishOnly": "npm test && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/volkovasystem/result.git"
+  },
+  "keywords": [
+    "result",
+    "return"
+  ],
+  "author": "Richeve S. Bebedor <richeve.bebedor@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/volkovasystem/result/issues"
+  },
+  "homepage": "https://github.com/volkovasystem/result#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/plugin-transform-modules-umd": "^7.9.0"
+  }
+}
