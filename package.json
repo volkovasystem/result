@@ -5,11 +5,13 @@
   "main": "result.js",
   "scripts": {
     "test": "node ./result.test.js",
-    "minify-module": "npx terser result.module.js --compress --output result.js",
-    "modularize": "npx babel --plugins @babel/plugin-transform-modules-umd result.js --out-file result.js",
-    "minify": "npx terser result.js --compress --output result.js",
-    "build": "npm run minify-module && npm run modularize && npm run minify",
-    "prepublishOnly": "npm test && npm run build"
+    "clean": "rm -Rfv ./node_modules && rm ./result.js",
+    "compress": "npx terser ./result.module.js --compress --comments all --output ./result.js",
+    "modularize": "npx babel --plugins @babel/plugin-transform-modules-umd ./result.js --out-file ./result.js",
+    "minify": "npx terser ./result.js --compress --comments all --output ./result.js",
+    "build": "npm run compress && npm run modularize && npm run minify",
+    "deploy": "npm run clean && npm install && npm run build && npm test",
+    "prepublishOnly": "npm run clean && npm install && npm run build && npm test"
   },
   "repository": {
     "type": "git",
