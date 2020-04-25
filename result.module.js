@@ -580,23 +580,10 @@ Result.prototype.getResult = (
 );
 
 Result.prototype.checkResult = (
-	function checkResult( resultQuery ){
+	function checkResult( ){
 		/*;
 			@procedure-definition:
 			@end-procedure-definition
-
-			@parameter-definition:
-				{
-					"resultQuery": "
-						[
-							@type:
-							@end-type
-
-							<@optional;>
-						]
-					"
-				}
-			@end-parameter-definition
 
 			@result-definition:
 				{
@@ -616,6 +603,13 @@ Result.prototype.checkResult = (
 			.getResult( )
 		);
 
+		return	(
+						(
+								typeof
+								result
+							!=	"undefined"
+						)
+				);
 	}
 );
 
