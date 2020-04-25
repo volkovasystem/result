@@ -1,6 +1,6 @@
 {
   "name": "@volkovasystem/result",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Result class interface for procedure return value.",
   "main": "result.js",
   "scripts": {
