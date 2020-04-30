@@ -171,9 +171,18 @@ const Result = (
 								(
 									Object
 									.freeze(
-										{
-											"result": result
-										}
+										Object
+										.defineProperty(
+											{ },
+
+											"result",
+
+											{
+												"value": result,
+
+												"enumerable": false
+											}
+										)
 									)
 								)
 							)
@@ -535,11 +544,18 @@ Result.prototype.setResult = (
 		.setScope(
 			Object
 			.freeze(
-				{
-					"result": (
-						result
-					)
-				}
+				Object
+				.defineProperty(
+					{ },
+
+					"result",
+
+					{
+						"value": result,
+
+						"enumerable": false
+					}
+				)
 			)
 		);
 
