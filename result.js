@@ -133,7 +133,7 @@
     				}
     			@end-static-procedure-definition
     		*/
-if(this instanceof Result!=1)return result instanceof Result==1?result:new Result(result);void 0!==result?Object.defineProperty(this,"$resultData",{value:(new WeakMap).set(this,Object.freeze({result:result})),configurable:!1,enumerable:!1,writable:!1}):Object.defineProperty(this,"$resultData",{value:(new WeakMap).set(this,{}),configurable:!1,enumerable:!1,writable:!1})};Object.defineProperty(Result,"namespace",{value:"Result",configurable:!1,enumerable:!0,writable:!1}),Object.defineProperty(Result,"type",{value:Object.freeze(["class","object","result"]),configurable:!1,enumerable:!0,writable:!1}),Object.defineProperty(Result,"checkResult",{value:function(entity){
+if(this instanceof Result!=1)return result instanceof Result==1?result:new Result(result);void 0!==result?Object.defineProperty(this,"$resultData",{value:(new WeakMap).set(this,Object.freeze(Object.defineProperty({},"result",{value:result,enumerable:!1}))),configurable:!1,enumerable:!1,writable:!1}):Object.defineProperty(this,"$resultData",{value:(new WeakMap).set(this,{}),configurable:!1,enumerable:!1,writable:!1})};Object.defineProperty(Result,"namespace",{value:"Result",configurable:!1,enumerable:!0,writable:!1}),Object.defineProperty(Result,"type",{value:Object.freeze(["class","object","result"]),configurable:!1,enumerable:!0,writable:!1}),Object.defineProperty(Result,"checkResult",{value:function(entity){
 /*;
       					@procedure-definition:
       					@end-procedure-definition
@@ -221,7 +221,7 @@ return"object"==typeof entity&&(entity instanceof Result==1||"string"==typeof en
     				}
     			@end-result-definition
     		*/
-if(void 0!==this.getScope().result)throw new Error(["#set-result-done;","cannot set result","set result done","@result: "+this.getScope().result]);if(void 0===result)throw new Error(["#invalid-set-result","cannot set result","invalid result","@result: "+result]);return this.setScope(Object.freeze({result:result})),this},Result.prototype.getResult=function(){
+if(void 0!==this.getScope().result)throw new Error(["#set-result-done;","cannot set result","set result done","@result: "+this.getScope().result]);if(void 0===result)throw new Error(["#invalid-set-result","cannot set result","invalid result","@result: "+result]);return this.setScope(Object.freeze(Object.defineProperty({},"result",{value:result,enumerable:!1}))),this},Result.prototype.getResult=function(){
 /*;
     			@procedure-definition:
     			@end-procedure-definition
