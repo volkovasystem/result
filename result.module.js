@@ -40,7 +40,7 @@ const Result = (
 			@definition:
 				@class:#Result
 					@description:
-						Result class interface for procedure result.
+						Result class interface for procedure return.
 					@description;
 				@class;
 
@@ -180,7 +180,7 @@ const Result = (
 				(
 					( provider ) => {
 						this
-						.push(
+						.solveResult(
 							(
 								provider
 							)
@@ -226,9 +226,9 @@ const Result = (
 								result
 							),
 
-							"solve": (
+							"solveResult": (
 								result
-								.solve
+								.solveResult
 								.bind(
 									(
 										result
@@ -255,8 +255,8 @@ const ResultPrototype = (
 		)
 );
 
-ResultPrototype.solve = (
-	function solve( provider ){
+ResultPrototype.solveResult = (
+	function solveResult( provider ){
 		if(
 				(
 						typeof
@@ -414,20 +414,20 @@ ResultPrototype.solve = (
 																Array
 																.isArray(
 																	(
-																		target
+																		source
 																	)
 																)
 															===	true
 														)
 												){
 													return	(
-																target
+																source
 																.pop( )
 															)
 												}
 												else{
 													return	(
-																target
+																source
 															);
 												}
 											}
@@ -455,11 +455,7 @@ ResultPrototype.solve = (
 												)
 										)
 									?	(
-											solve(
-												(
-													undefined
-												),
-
+											provider(
 												(
 													undefined
 												),
@@ -470,6 +466,10 @@ ResultPrototype.solve = (
 
 												(
 													target
+												),
+
+												(
+													undefined
 												)
 											)
 										)
@@ -506,6 +506,25 @@ ResultPrototype.solve = (
 						this
 					);
 		}
+	}
+);
+
+ResultPrototype.cleanResult = (
+	function cleanResult( ){
+		while(
+				(
+						this
+						.length
+					>	0
+				)
+		){
+			this
+			.pop( )
+		}
+
+		return	(
+					this
+				);
 	}
 );
 
