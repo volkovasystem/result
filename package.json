@@ -1,35 +1,34 @@
 {
-  "name": "@volkovasystem/result",
-  "version": "0.0.2",
-  "description": "Result class interface for procedure return value.",
-  "main": "result.js",
-  "scripts": {
-    "test": "node ./result.test.js",
-    "clean": "rm -Rfv ./node_modules && rm ./result.js",
-    "compress": "npx terser ./result.module.js --compress --comments all --output ./result.js",
-    "modularize": "npx babel --plugins @babel/plugin-transform-modules-umd ./result.js --out-file ./result.js",
-    "minify": "npx terser ./result.js --compress --comments all --output ./result.js",
-    "build": "npm run compress && npm run modularize && npm run minify",
-    "deploy": "npm run clean && npm install && npm run build && npm test",
-    "prepublishOnly": "npm run clean && npm install && npm run build && npm test"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/volkovasystem/result.git"
-  },
-  "keywords": [
-    "result",
-    "return"
-  ],
-  "author": "Richeve S. Bebedor <richeve.bebedor@gmail.com>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/volkovasystem/result/issues"
-  },
-  "homepage": "https://github.com/volkovasystem/result#readme",
-  "devDependencies": {
-    "@babel/cli": "^7.8.4",
-    "@babel/core": "^7.9.0",
-    "@babel/plugin-transform-modules-umd": "^7.9.0"
-  }
+	"name": "@volkovasystem/result",
+	"alias": "result",
+	"version": "0.0.3",
+	"description": "Result class interface for procedure return.",
+	"main": "result.js",
+	"scripts": {
+		"clean": "rm -rfv ./node_modules || true && rm -fv ./package-lock.json || true && npm cache clean --force",
+		"reset": "npm run clean && rm -rfv ./result.js || true && rm -rfv ./.build || true",
+		"bundle": "npx parcel build ./*.module.js --no-cache --no-source-maps --no-minify --out-dir ./.build --out-file ./result.js --global Result && mv ./.build/result.js ./result.js && rm -rfv ./.build || true",
+		"compress": "npx terser ./result.js --compress --output ./result.js",
+		"build": "npm run bundle && npm run compress",
+		"test": "node ./result.test.js",
+		"stage": "npm run reset && npm install && npm run build && npm test && npm run clean",
+		"prepublishOnly": "npm run stage"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/volkovasystem/result.git"
+	},
+	"keywords": [
+		"result",
+		"parameter"
+	],
+	"author": "Richeve S. Bebedor <richeve.bebedor@gmail.com>",
+	"contributors": [
+		"Richeve S. Bebedor <richeve.bebedor@gmail.com>"
+	],
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/volkovasystem/result/issues"
+	},
+	"homepage": "https://github.com/volkovasystem/result#readme"
 }

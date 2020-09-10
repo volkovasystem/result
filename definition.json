@@ -1,0 +1,273 @@
+{
+	"module": [
+		{
+			"title": "Result",
+			"description": [
+				"Result class interface for procedure return."
+			],
+			"namespace": "result",
+			"property": [
+				"Result"
+			],
+			"type": [
+				"class"
+			],
+			"format": [
+				"Result( providerList );"
+			],
+			"sample": [
+				"const { result, solveResult } = Result( providerList );"
+			],
+
+			"parameter": [
+				{
+					"title": "Provider List",
+					"description": [
+						"Result solution provider."
+					],
+					"namespace": "provider-list",
+					"property": [
+						"providerList"
+					],
+					"type": [
+						"object:as:Array:of:function"
+					],
+					"format": [
+
+					],
+					"sample": [
+
+					]
+				}
+			],
+
+			"result": [
+				{
+					"title": "Result",
+					"description": [
+
+					],
+					"namespace": "result",
+					"alias": "result",
+					"property": [
+						"result"
+					],
+					"type": [
+						"object:as:Result"
+					],
+					"format": [
+
+					],
+					"sample": [
+
+					]
+				}
+			],
+
+			"trigger": [
+				{
+					"title": "trigger",
+					"description": [
+
+					],
+					"namespace": "trigger",
+					"alias": "trigger",
+					"property": [
+						"trigger"
+					],
+					"type": [
+						"object:as:Error"
+					],
+					"format": [
+
+					],
+					"sample": [
+
+					]
+				}
+			],
+
+			"procedure": [
+				{
+					"title": "",
+					"description": [
+
+					],
+					"namespace": "",
+					"alias": "",
+					"property": [
+
+					],
+					"type": [
+
+					],
+					"format": [
+
+					],
+					"sample": [
+
+					],
+
+					"parameter": [
+						{
+							"title": "",
+							"description": [
+
+							],
+							"namespace": "",
+							"alias": "",
+							"property": [
+
+							],
+							"type": [
+
+							],
+							"format": [
+
+							],
+							"sample": [
+
+							]
+						}
+					],
+
+					"result": [
+						{
+							"title": "Result",
+							"description": [
+
+							],
+							"namespace": "result",
+							"alias": "result",
+							"property": [
+								"result"
+							],
+							"type": [
+								"object:as:Result"
+							],
+							"format": [
+
+							],
+							"sample": [
+
+							]
+						}
+					],
+
+					"trigger": [
+						{
+							"title": "trigger",
+							"description": [
+
+							],
+							"namespace": "trigger",
+							"alias": "trigger",
+							"property": [
+								"trigger"
+							],
+							"type": [
+								"object:as:Error"
+							],
+							"format": [
+
+							],
+							"sample": [
+
+							]
+						}
+					]
+				},
+
+				{
+					"title": "",
+					"description": [
+
+					],
+					"namespace": "",
+					"alias": "",
+					"property": [
+
+					],
+					"type": [
+
+					],
+					"format": [
+
+					],
+					"sample": [
+
+					],
+
+					"parameter": [
+						{
+							"title": "",
+							"description": [
+
+							],
+							"namespace": "",
+							"alias": "",
+							"property": [
+
+							],
+							"type": [
+
+							],
+							"format": [
+
+							],
+							"sample": [
+
+							]
+						}
+					],
+
+					"result": [
+						{
+							"title": "Result",
+							"description": [
+
+							],
+							"namespace": "result",
+							"alias": "result",
+							"property": [
+								"result"
+							],
+							"type": [
+								"object:as:Result"
+							],
+							"format": [
+
+							],
+							"sample": [
+
+							]
+						}
+					],
+
+					"trigger": [
+						{
+							"title": "trigger",
+							"description": [
+
+							],
+							"namespace": "trigger",
+							"alias": "trigger",
+							"property": [
+								"trigger"
+							],
+							"type": [
+								"object:as:Error"
+							],
+							"format": [
+
+							],
+							"sample": [
+
+							]
+						}
+					]
+				}
+			]
+		}
+	]
+}

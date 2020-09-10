@@ -1,24 +1,18 @@
 "use strict";
 
 /*;
-	@module-license:
+	@license:module:
 		MIT License
 
-		Copyright (c) 2020 Richeve S. Bebedor <richeve.bebedor@gmail.com>
+		Copyright (c) 2020-present Richeve S. Bebedor <richeve.bebedor@gmail.com>
 
-		@copyright:
+		@license:copyright:
 			Richeve S. Bebedor
-			<
-				@year:
-					2020
-				@end-year
-			>
-			<
-				@contact:
-					richeve.bebedor@gmail.com
-				@end-contact
-			>
-		@end-copyright
+
+			<@license:year-range:2020-present;>
+
+			<@license:contact-detail:richeve.bebedor@gmail.com;>
+		@license:copyright;
 
 		Permission is hereby granted, free of charge, to any person obtaining a copy
 		of this software and associated documentation files (the "Software"), to deal
@@ -37,106 +31,122 @@
 		LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 		OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 		SOFTWARE.
-	@end-module-license
+	@license:module;
 */
 
 const Result = (
-	function Result( result ){
+	function Result( providerList ){
 		/*;
-			@class-procedure-definition:
-			@end-class-procedure-definition
+			@definition:
+				@class:#Result
+					@description:
+						Result class interface for procedure return.
+					@description;
+				@class;
 
-			@parameter-definition:
-				{
-					"result": "
-						[
-							@type:
-									boolean
-								|	function
-								|	object
-								|	number
-								|	string
-								|	symbol
-							@end-type
-						]
-					"
-				}
-			@end-parameter-definition
+				@parameter:#providerList
+					@type:
+					@type;
 
-			@result-definition:
-				{
-					"result": "
-						[
-							@type:
-									object as Result
-							@end-type
-						]
-					"
-				}
-			@end-result-definition
+					@description:
+					@description;
 
-			@static-property-definition:
-				{
-					"namespace": "
-						[
-							@type:
-									string
+					@optional;
+				@parameter;
 
-								<
-									@default-value:
-										Result
-									@end-default-value
-								>
-							@end-type
+				@result:#result
+					@type:
+							object:as:Result
+					@type;
 
-							<
-								@property-definition:
-								@end-property-definition
-							>
-						]
-					",
+					@description:
+					@description;
+				@result;
 
-					"type": "
-						[
-							@type:
-									object as Array of string
+				@trigger:#trigger
+					@type:
+							object:as:Error
+					@type;
 
-								<
-									@default-value:
-										class
-										object
-										result
-									@end-default-value
-								>
-							@end-type
-
-							<
-								@property-definition:
-								@end-property-definition
-							>
-						]
-					",
-				}
-			@end-static-property-definition
-
-			@static-procedure-definition:
-				{
-					"checkResult": "
-						[
-							@type:
-									function as checkResult
-							@end-type
-
-							<
-								@procedure-definition:
-									Check if object instance of Result class.
-								@end-procedure-definition
-							>
-						]
-					"
-				}
-			@end-static-procedure-definition
+					@description:
+					@description;
+				@trigger;
+			@definition;
 		*/
+
+		const resolveProviderList = (
+			function resolveProviderList( ){
+				return	(
+							Array
+							.from(
+								(
+									arguments
+								)
+							)
+							.reduce(
+								(
+									( providerList, parameter ) => {
+										if(
+												(
+														typeof
+														parameter
+													==	"function"
+												)
+										){
+											providerList
+											.push(
+												(
+													parameter
+												)
+											);
+										}
+										else if(
+												(
+														Array
+														.isArray(
+															(
+																parameter
+															)
+														)
+													===	true
+												)
+										){
+											parameter
+											.forEach(
+												(
+													( provider ) => {
+														if(
+																(
+																		typeof
+																		provider
+																	==	"function"
+																)
+														){
+															providerList
+															.push(
+																(
+																	provider
+																)
+															);
+														}
+													}
+												)
+											);
+										}
+
+										return	(
+													providerList
+												);
+									}
+								),
+
+								(
+									[ ]
+								)
+							)
+						);
+			}
+		);
 
 		if(
 				(
@@ -147,697 +157,404 @@ const Result = (
 					===	true
 				)
 		){
-			if(
+			providerList = (
+				resolveProviderList
+				.apply(
 					(
-							typeof
-							result
-						!=	"undefined"
-					)
-			){
-				Object
-				.defineProperty(
-					this,
+						null
+					),
 
-					"$resultData",
-
-					{
-						"value": (
+					(
+						Array
+						.from(
 							(
-								new WeakMap( )
+								arguments
 							)
-							.set(
-								this,
+						)
+					)
+				)
+			);
 
-								(
-									Object
-									.freeze(
-										Object
-										.defineProperty(
-											{ },
+			providerList
+			.forEach(
+				(
+					( provider ) => {
+						this
+						.solveResult(
+							(
+								provider
+							)
+						);
+					}
+				)
+			);
 
-											"result",
+			return	(
+						this
+					);
+		}
+		else{
+			providerList = (
+				resolveProviderList
+				.apply(
+					(
+						null
+					),
 
-											{
-												"value": result,
+					(
+						Array
+						.from(
+							(
+								arguments
+							)
+						)
+					)
+				)
+			);
 
-												"enumerable": false
-											}
-										)
+			const result = (
+				new	Result(
+						(
+							providerList
+						)
+					)
+			);
+
+			return	(
+						{
+							"result": (
+								result
+							),
+
+							"solveResult": (
+								result
+								.solveResult
+								.bind(
+									(
+										result
 									)
 								)
 							)
-						),
-
-						"configurable": false,
-						"enumerable": false,
-						"writable": false
-					}
-				);
-			}
-			else{
-				Object
-				.defineProperty(
-					this,
-
-					"$resultData",
-
-					{
-						"value": (
-							(
-								new WeakMap( )
-							)
-							.set(
-								this,
-
-								{ }
-							)
-						),
-
-						"configurable": false,
-						"enumerable": false,
-						"writable": false
-					}
-				);
-			}
-		}
-		else{
-			if(
-					(
-							(
-											result
-								instanceof	Result
-							)
-						===	true
-					)
-			){
-				return	result;
-			}
-			else{
-				return	(
-							new	Result(
-									result
-								)
-						);
-			}
-		}
-	}
-);
-
-Object
-.defineProperty(
-	Result,
-
-	"namespace",
-
-	{
-		"value": "Result",
-
-		"configurable": false,
-		"enumerable": true,
-		"writable": false
-	}
-);
-
-Object
-.defineProperty(
-	Result,
-
-	"type",
-
-	{
-		"value": (
-			Object
-			.freeze(
-				[
-					"class",
-					"object",
-					"result"
-				]
-			)
-		),
-
-		"configurable": false,
-		"enumerable": true,
-		"writable": false
-	}
-);
-
-Object
-.defineProperty(
-	Result,
-
-	"checkResult",
-
-	{
-		"value": (
-			function checkResult( entity ){
-				/*;
-					@procedure-definition:
-					@end-procedure-definition
-
-					@parameter-definition:
-						{
-							"entity": "
-								[
-									@type:
-											boolean
-										|	function
-										|	object
-										|	number
-										|	string
-										|	symbol
-										|	undefined
-									@end-type
-
-									<@required;>
-								]
-							"
 						}
-					@end-parameter-definition
-
-					@result-definition:
-						{
-							"result": "
-								[
-									@type:
-											boolean
-									@end-type
-								]
-							"
-						}
-					@end-result-definition
-				*/
-
-				return	(
-								(
-										typeof
-										entity
-									==	"object"
-								)
-
-							&&	(
-										(
-												(
-																entity
-													instanceof	Result
-												)
-											===	true
-										)
-
-									||	(
-												(
-														typeof
-														(
-															(
-																entity
-																.constructor
-															)
-															.namespace
-														)
-													==	"string"
-												)
-
-											&&	(
-														(
-															(
-																entity
-																.constructor
-																.namespace
-															)
-															.length
-														)
-													>	0
-												)
-
-											&&	(
-														(
-															(
-																entity
-																.constructor
-															)
-															.namespace
-														)
-													===	(
-															Result
-															.namespace
-														)
-												)
-										)
-
-									||	(
-												(
-														typeof
-														(
-															entity
-															.$type
-														)
-													==	"object"
-												)
-
-											&&	(
-														entity
-														.$type
-													!==	null
-												)
-
-											&&	(
-														Array
-														.isArray(
-															entity
-															.$type
-														)
-													===	true
-												)
-
-											&&	(
-														(
-															(
-																Result
-																.type
-															)
-															.every(
-																( type ) => (
-																	(
-																		entity
-																		.$type
-																	)
-																	.includes(
-																		type
-																	)
-																)
-															)
-														)
-													===	true
-												)
-										)
-								)
-						);
-			}
-		),
-
-		"configurable": false,
-		"enumerable": false,
-		"writable": false
+					);
+		}
 	}
 );
 
-Result.prototype.setResult = (
-	function setResult( result ){
-		/*;
-			@procedure-definition:
-			@end-procedure-definition
-
-			@parameter-definition:
-				{
-					"result":"
-						[
-							@type:
-									boolean
-								|	function
-								|	object
-								|	number
-								|	string
-								|	symbol
-							@end-type
-
-							<@required;>
-						]
-					"
-				}
-			@end-parameter-definition
-
-			@trigger-definition:
-				{
-					"trigger": "
-						[
-							@type:
-									object as Error
-							@end-type
-
-							<@tag: set-result-done;>
-							<@tag: invalid-set-result;>
-						]
-					"
-				}
-			@end-trigger-definition
-
-			@result-definition:
-				{
-					"result": "
-						[
-							@type:
-									object as Result
-							@end-type
-						]
-					"
-				}
-			@end-result-definition
-		*/
-
-		if(
-				(
-						typeof
-						(
-							this
-							.getScope( )
-						)
-						.result
-					!=	"undefined"
-				)
-		){
-			throw	(
-						new	Error(
-								[
-									"#set-result-done;",
-
-									"cannot set result",
-									"set result done",
-
-									`@result: ${ this.getScope( ).result }`
-								]
-							)
-					);
-		}
-
-		if(
-				(
-						typeof
-						result
-					==	"undefined"
-				)
-		){
-			throw	(
-						new	Error(
-								[
-									"#invalid-set-result",
-
-									"cannot set result",
-									"invalid result",
-
-									`@result: ${ result }`
-								]
-							)
-					);
-		}
-
-		this
-		.setScope(
+const ResultPrototype = (
+		Result
+		.prototype
+	=	(
 			Object
-			.freeze(
-				Object
-				.defineProperty(
-					{ },
-
-					"result",
-
-					{
-						"value": result,
-
-						"enumerable": false
-					}
+			.create(
+				(
+					Array
+					.prototype
 				)
 			)
-		);
-
-		return	this;
-	}
+		)
 );
 
-Result.prototype.getResult = (
-	function getResult( ){
-		/*;
-			@procedure-definition:
-			@end-procedure-definition
-
-			@result-definition:
-				{
-					"result": "
-						[
-							@type:
-									boolean
-								|	function
-								|	object
-								|	number
-								|	string
-								|	symbol
-							@end-type
-						]
-					"
-				}
-			@end-result-definition
-		*/
-
-		return	(
-					this
-					.getScope( )
-					.result
-				);
-	}
-);
-
-Result.prototype.checkResult = (
-	function checkResult( ){
-		/*;
-			@procedure-definition:
-			@end-procedure-definition
-
-			@result-definition:
-				{
-					"result": "
-						[
-							@type:
-									boolean
-							@end-type
-						]
-					"
-				}
-			@end-result-definition
-		*/
-
-		const result = (
-			this
-			.getResult( )
-		);
-
-		return	(
-						(
-								typeof
-								result
-							!=	"undefined"
-						)
-				);
-	}
-);
-
-Result.prototype.setScope = (
-	function setScope( scopeData ){
-		/*;
-			@procedure-definition:
-				Set result data container scope.
-			@end-procedure-definition
-
-			@parameter-definition:
-				{
-					"scopeData": "
-						[
-							@type:
-									object
-							@end-type
-
-							<@required;>
-						]
-					"
-				}
-			@end-parameter-definition
-
-			@trigger-definition:
-				{
-					"trigger": "
-						[
-							@type:
-									object as Error
-							@end-type
-
-							<@tag: invalid-set-result-scope-data;>
-						]
-					"
-				}
-			@end-trigger-definition
-
-			@result-definition:
-				{
-					"result": "
-						[
-							@type:
-									object as Result
-							@end-type
-						]
-					"
-				}
-			@end-result-definition
-		*/
-
+ResultPrototype.solveResult = (
+	function solveResult( provider ){
 		if(
 				(
 						typeof
-						scopeData
-					==	"object"
-				)
-
-			&&	(
-						scopeData
-					!==	null
-				)
-		){
-			(
-				this
-				.$resultData
-			)
-			.set(
-				this,
-				scopeData
-			);
-		}
-		else{
-			throw	(
-						new	Error(
-								[
-									"#invalid-set-result-scope-data;",
-
-									"cannot set result scope data",
-									"invalid scope data",
-
-									`@scope-data: ${ scopeData }`
-								]
-							)
-					);
-		}
-
-		return	this;
-	}
-);
-
-Result.prototype.getScope = (
-	function getScope( ){
-		/*;
-			@procedure-definition:
-				Get result data container scope.
-			@end-procedure-definition
-
-			@result-definition:
-				{
-					"result": "
-						[
-							@type:
-									object
-							@end-type
-						]
-					"
-				}
-			@end-result-definition
-		*/
-
-		return	(
-					(
-						this
-						.$resultData
-					)
-					.get(
-						this
-					)
-				);
-	}
-);
-
-Result.prototype.valueOf = (
-	function valueOf( ){
-		/*;
-			@procedure-definition:
-			@end-procedure-definition
-
-			@result-definition:
-				{
-					"result": "
-						[
-							@type:
-									object
-							@end-type
-						]
-					"
-				}
-			@end-result-definition
-		*/
-
-		return	(
-					Object
-					.freeze(
-						Object
-						.assign(
-							{ },
-
-							(
-								this
-								.getScope( )
-							)
-						)
-					)
-				);
-	}
-);
-
-Result.prototype.toString = (
-	function toString( ){
-		/*;
-			@procedure-definition:
-			@end-procedure-definition
-
-			@result-definition:
-				{
-					"result": "
-						[
-							@type:
-									string
-							@end-type
-						]
-					"
-				}
-			@end-result-definition
-		*/
-
-		if(
-				(
-						typeof
-						require
+						provider
 					==	"function"
 				)
 		){
-			const util = require( "util" );
-
 			if(
 					(
-							typeof
-							(
-								util
-								.inspect
-							)
-						==	"function"
+							provider
+							.name
+						===	"solve"
 					)
 			){
-				return	(
-							util
-							.inspect(
-								this
-								.getScope( )
-							)
-						);
+				this
+				.push(
+					(
+						provider
+					)
+				);
 			}
+			else if(
+					(
+							provider
+							.name
+						===	"data"
+					)
+			){
+				this
+				.push(
+					(
+						provider
+					)
+				);
+			}
+			else{
+				this
+				.push(
+					function solve( property, value, source, target ){
+						return	(
+									provider(
+										(
+											property
+										),
+
+										(
+											value
+										),
+
+										(
+											source
+										),
+
+										(
+											target
+										)
+									)
+								);
+					}
+				);
+			}
+
+			return	(
+						this
+					);
+		}
+		else if(
+				(
+						arguments
+						.length
+					<=	0
+				)
+		){
+			const source = (
+				this
+				.reduce(
+					(
+						( source, provider ) => (
+								(
+										(
+												typeof
+												provider
+											==	"function"
+										)
+
+									||	(
+												provider
+												.name
+											===	"data"
+										)
+								)
+							?	(
+									provider(
+										(
+											undefined
+										),
+
+										(
+											undefined
+										),
+
+										(
+											source
+										),
+
+										(
+											undefined
+										)
+									)
+								)
+							:	(
+									source
+								)
+						)
+					),
+
+					(
+						[ ]
+					)
+				)
+			);
+
+			return	(
+						this
+						.concat(
+							(
+								[
+										(
+												(
+														this
+														.some(
+															(
+																( provider ) => (
+																		(
+																				typeof
+																				provider
+																			==	"function"
+																		)
+
+																	&&	(
+																				provider
+																				.name
+																			===	"solve"
+																		)
+																)
+															)
+														)
+													!==	true
+												)
+										)
+									?	(
+											function solve( property, value, source, target ){
+												if(
+														(
+																Array
+																.isArray(
+																	(
+																		source
+																	)
+																)
+															===	true
+														)
+												){
+													return	(
+																source
+																.pop( )
+															)
+												}
+												else{
+													return	(
+																source
+															);
+												}
+											}
+										)
+									:	(
+											undefined
+										)
+								]
+							)
+						)
+						.reduce(
+							(
+								( target, provider ) => (
+										(
+												(
+														typeof
+														provider
+													==	"function"
+												)
+
+											&&	(
+														provider
+														.name
+													===	"solve"
+												)
+										)
+									?	(
+											provider(
+												(
+													undefined
+												),
+
+												(
+													undefined
+												),
+
+												(
+													target
+												),
+
+												(
+													undefined
+												)
+											)
+										)
+									:	(
+											target
+										)
+								)
+							),
+
+							(
+								source
+							)
+						)
+					);
+		}
+		else{
+			this
+			.push(
+				function data( property, value, source, target ){
+					source
+					.push(
+						(
+							provider
+						)
+					);
+
+					return	(
+								source
+							);
+				}
+			);
+
+			return	(
+						this
+					);
+		}
+	}
+);
+
+ResultPrototype.cleanResult = (
+	function cleanResult( ){
+		while(
+				(
+						this
+						.length
+					>	0
+				)
+		){
+			this
+			.pop( )
 		}
 
 		return	(
+					this
+				);
+	}
+);
+
+ResultPrototype.valueOf = (
+	function valueOf( ){
+		return	(
+					this
+					.solve( )
+				);
+	}
+);
+
+ResultPrototype.toJSON = (
+	function toJSON( ){
+		return	(
+					this
+					.valueOf( )
+				);
+	}
+);
+
+ResultPrototype.toString = (
+	function toString( ){
+		return	(
 					JSON
 					.stringify(
-						this
-						.getScope( )
+						(
+							this
+							.toJSON( )
+						)
 					)
 				);
 	}
