@@ -61,6 +61,7 @@ const Result = (
 
 				@parameter:#providerList
 					@type:
+							object:as:Array:of:function
 					@type;
 
 					@description:
@@ -367,6 +368,14 @@ const ResultPrototype = (
 		)
 );
 
+ResultPrototype.getContext = (
+	function getContext( ){
+		return	(
+					this[ RESULT_CONTEXT ]
+				);
+	}
+);
+
 ResultPrototype.solveResult = (
 	function solveResult( provider ){
 		if(
@@ -412,10 +421,21 @@ ResultPrototype.solveResult = (
 									provider(
 										(
 											{
-												property: property,
-												value: value,
-												source: source,
-												target: target
+												"property": (
+													property
+												),
+
+												"value": (
+													value
+												),
+
+												"source": (
+													source
+												),
+
+												"target": (
+													target
+												)
 											}
 										)
 									)
@@ -457,7 +477,9 @@ ResultPrototype.solveResult = (
 									provider(
 										(
 											{
-												source: source
+												"source": (
+													source
+												)
 											}
 										)
 									)
@@ -553,8 +575,14 @@ ResultPrototype.solveResult = (
 											provider(
 												(
 													{
-														source: target,
-														target: this[ RESULT_CONTEXT ]
+														"source": (
+															target
+														),
+
+														"target": (
+															this
+															.getContext( )
+														)
 													}
 												)
 											)
@@ -618,7 +646,7 @@ ResultPrototype.valueOf = (
 	function valueOf( ){
 		return	(
 					this
-					.solve( )
+					.solveResult( )
 				);
 	}
 );
