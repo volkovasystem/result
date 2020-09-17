@@ -34,8 +34,12 @@
 	@license:module;
 */
 
+const RESULT_CONTEXT = (
+	Symbol( "result-context" )
+);
+
 const Result = (
-	function Result( providerList ){
+	function Result( contextData, providerList ){
 		/*;
 			@definition:
 				@class:#Result
@@ -43,6 +47,17 @@ const Result = (
 						Result class interface for procedure return.
 					@description;
 				@class;
+
+				@parameter:#contextData
+					@type:
+							object
+					@type;
+
+					@description:
+					@description;
+
+					@optional;
+				@parameter;
 
 				@parameter:#providerList
 					@type:
@@ -74,76 +89,129 @@ const Result = (
 			@definition;
 		*/
 
-		const resolveProviderList = (
-			function resolveProviderList( ){
-				return	(
-							Array
-							.from(
-								(
-									arguments
-								)
-							)
-							.reduce(
-								(
-									( providerList, parameter ) => {
-										if(
+		const resolveParameterList = (
+			function resolveParameterList( ){
+				const parameterList = (
+					Array
+					.from(
+						(
+							arguments
+						)
+					)
+				);
+
+				const contextCache = (
+					Object
+					.assign(
+						...	(
+								parameterList
+								.filter(
+									(
+										( parameter ) => (
 												(
 														typeof
 														parameter
-													==	"function"
+													==	"object"
 												)
-										){
-											providerList
-											.push(
-												(
-													parameter
+
+											&&	(
+														parameter
+													!==	null
 												)
-											);
-										}
-										else if(
-												(
+
+											&&	(
 														Array
 														.isArray(
 															(
 																parameter
 															)
 														)
-													===	true
+													!==	true
 												)
-										){
-											parameter
-											.forEach(
-												(
-													( provider ) => {
-														if(
-																(
-																		typeof
-																		provider
-																	==	"function"
-																)
-														){
-															providerList
-															.push(
-																(
-																	provider
-																)
-															);
-														}
-													}
-												)
-											);
-										}
-
-										return	(
-													providerList
-												);
-									}
-								),
-
-								(
-									[ ]
+										)
+									)
+								)
+								.concat(
+									(
+										[
+											{ }
+										]
+									)
 								)
 							)
+					)
+				);
+
+				const providerCache = (
+					parameterList
+					.reduce(
+						(
+							( list, parameter ) => {
+								if(
+										(
+												typeof
+												parameter
+											==	"function"
+										)
+								){
+									list
+									.push(
+										(
+											parameter
+										)
+									);
+								}
+								else if(
+										(
+												Array
+												.isArray(
+													(
+														parameter
+													)
+												)
+											===	true
+										)
+								){
+									parameter
+									.forEach(
+										(
+											( provider ) => {
+												if(
+														(
+																typeof
+																provider
+															==	"function"
+														)
+												){
+													list
+													.push(
+														(
+															provider
+														)
+													);
+												}
+											}
+										)
+									);
+								}
+
+								return	(
+											list
+										);
+							}
+						),
+
+						(
+							[ ]
+						)
+					)
+				);
+
+				return	(
+							[
+								contextCache,
+								providerCache
+							]
 						);
 			}
 		);
@@ -157,23 +225,57 @@ const Result = (
 					===	true
 				)
 		){
-			providerList = (
-				resolveProviderList
-				.apply(
-					(
-						null
-					),
-
-					(
-						Array
-						.from(
+			(
+					[
+						contextData,
+						providerList
+					]
+				=	(
+						resolveParameterList
+						.apply(
 							(
-								arguments
+								this
+							),
+
+							(
+								Array
+								.from(
+									(
+										arguments
+									)
+								)
 							)
 						)
 					)
-				)
 			);
+
+			if(
+					(
+							typeof
+							contextData
+						==	"object"
+					)
+
+				&&	(
+							contextData
+						!==	null
+					)
+			){
+				(
+						this[ RESULT_CONTEXT ]
+					=	(
+							contextData
+						)
+				);
+			}
+			else{
+				(
+						this[ RESULT_CONTEXT ]
+					=	(
+							{ }
+						)
+				);
+			}
 
 			providerList
 			.forEach(
@@ -194,26 +296,36 @@ const Result = (
 					);
 		}
 		else{
-			providerList = (
-				resolveProviderList
-				.apply(
-					(
-						null
-					),
-
-					(
-						Array
-						.from(
+			(
+					[
+						contextData,
+						providerList
+					]
+				=	(
+						resolveParameterList
+						.apply(
 							(
-								arguments
+								null
+							),
+
+							(
+								Array
+								.from(
+									(
+										arguments
+									)
+								)
 							)
 						)
 					)
-				)
 			);
 
 			const result = (
 				new	Result(
+						(
+							contextData
+						),
+
 						(
 							providerList
 						)
@@ -295,23 +407,16 @@ ResultPrototype.solveResult = (
 			else{
 				this
 				.push(
-					function solve( property, value, source, target ){
+					function solve( { property, value, source, target } ){
 						return	(
 									provider(
 										(
-											property
-										),
-
-										(
-											value
-										),
-
-										(
-											source
-										),
-
-										(
-											target
+											{
+												property: property,
+												value: value,
+												source: source,
+												target: target
+											}
 										)
 									)
 								);
@@ -351,19 +456,9 @@ ResultPrototype.solveResult = (
 							?	(
 									provider(
 										(
-											undefined
-										),
-
-										(
-											undefined
-										),
-
-										(
-											source
-										),
-
-										(
-											undefined
+											{
+												source: source
+											}
 										)
 									)
 								)
@@ -408,7 +503,7 @@ ResultPrototype.solveResult = (
 												)
 										)
 									?	(
-											function solve( property, value, source, target ){
+											function solve( { property, value, source, target } ){
 												if(
 														(
 																Array
@@ -457,19 +552,10 @@ ResultPrototype.solveResult = (
 									?	(
 											provider(
 												(
-													undefined
-												),
-
-												(
-													undefined
-												),
-
-												(
-													target
-												),
-
-												(
-													undefined
+													{
+														source: target,
+														target: this[ RESULT_CONTEXT ]
+													}
 												)
 											)
 										)
@@ -488,7 +574,7 @@ ResultPrototype.solveResult = (
 		else{
 			this
 			.push(
-				function data( property, value, source, target ){
+				function data( { property, value, source, target } ){
 					source
 					.push(
 						(
