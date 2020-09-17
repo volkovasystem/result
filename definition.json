@@ -13,13 +13,33 @@
 				"class"
 			],
 			"format": [
-				"Result( providerList );"
+				"Result( contextData, providerList );"
 			],
 			"sample": [
-				"const { result, solveResult } = Result( providerList );"
+				"const { result, solveResult } = Result( contextData, providerList );"
 			],
 
 			"parameter": [
+				{
+					"title": "Context Data",
+					"description": [
+						"Data parameter context."
+					],
+					"namespace": "context-data",
+					"property": [
+						"contextData"
+					],
+					"type": [
+						"object"
+					],
+					"format": [
+						"Result( contextData );"
+					],
+					"sample": [
+						"const { result, solveResult } = Result( { 'hello': 'world' } );"
+					]
+				},
+
 				{
 					"title": "Provider List",
 					"description": [
