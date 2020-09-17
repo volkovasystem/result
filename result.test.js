@@ -435,6 +435,81 @@ const TEST_RESULT_INSTANCE = (
 			}
 );
 
+const TEST_DEFAULT_SOLVE_RESULT = (
+	async	function TEST_DEFAULT_SOLVE_RESULT( ){
+				(
+					await	CLEAN_TEST_DIRECTORY( )
+				);
+
+				(
+					await	SETUP_TEST_DIRECTORY( )
+				);
+
+				try{
+					const solveResult = (
+						Result( )
+						.solveResult
+					);
+
+					solveResult(
+						(
+							"hello world"
+						)
+					);
+
+					const actualValue = (
+						solveResult( )
+					);
+
+					const testValue = (
+						"hello world"
+					);
+
+					strictAssert
+					.equal(
+						(
+							actualValue
+						),
+
+						(
+							testValue
+						),
+
+						(
+							[
+								"#test-default-solve-result;",
+
+								"test default solve result;",
+
+								`must return, ${ testValue };`
+							]
+						)
+					);
+
+					return	(
+								true
+							);
+				}
+				catch( error ){
+					console
+					.error(
+						(
+							error
+						)
+					);
+
+					return	(
+								false
+							);
+				}
+				finally{
+					(
+						await	CLEAN_TEST_DIRECTORY( )
+					);
+				}
+			}
+);
+
 (
 	async	function TEST_SCENE_BASIC( ){
 				(
@@ -447,11 +522,21 @@ const TEST_RESULT_INSTANCE = (
 						[
 							{
 								"test": (
-									"test result"
+									"test result instance"
 								),
 
 								"result": (
 									await	TEST_RESULT_INSTANCE( )
+								)
+							},
+
+							{
+								"test": (
+									"test default solve result"
+								),
+
+								"result": (
+									await	TEST_DEFAULT_SOLVE_RESULT( )
 								)
 							}
 						]
