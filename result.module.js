@@ -333,6 +333,58 @@ const Result = (
 					)
 			);
 
+			const	{
+						proxy: solveResult,
+						revoke: revokeSolveResult
+					}
+				=	(
+						Proxy
+						.revocable(
+							(
+								result
+								.solveResult
+							),
+
+							(
+								{
+									"apply": (
+										function apply( solveResult, scope, parameterList ){
+											return	(
+														solveResult
+														.apply(
+															(
+																result
+															),
+
+															(
+																parameterList
+															)
+														)
+													);
+										}
+									),
+
+									"getPrototypeOf": (
+										function getPrototypeOf( target ){
+											return	(
+														Result
+														.prototype
+													);
+										}
+									)
+								}
+							)
+						)
+					);
+
+			(
+					result
+					.revokeSolveResult
+				=	(
+						revokeSolveResult
+					)
+			);
+
 			return	(
 						{
 							"result": (
@@ -340,13 +392,11 @@ const Result = (
 							),
 
 							"solveResult": (
-								result
-								.solveResult
-								.bind(
-									(
-										result
-									)
-								)
+								solveResult
+							),
+
+							"revokeSolveResult": (
+								revokeSolveResult
 							)
 						}
 					);
@@ -654,8 +704,34 @@ ResultPrototype.valueOf = (
 ResultPrototype.toJSON = (
 	function toJSON( ){
 		return	(
-					this
-					.valueOf( )
+					Object
+					.entries(
+						(
+							this
+							.valueOf( )
+						)
+					)
+					.reduce(
+						(
+							( source, [ property, value ] ) => (
+								(
+										source[ property ]
+									=	(
+											value
+											.toString( )
+										)
+								),
+
+								(
+									source
+								)
+							)
+						),
+
+						(
+							{ }
+						)
+					)
 				);
 	}
 );
