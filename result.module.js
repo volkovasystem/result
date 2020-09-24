@@ -91,127 +91,128 @@ const Result = (
 		*/
 
 		const resolveParameterList = (
-			function resolveParameterList( ){
-				const parameterList = (
-					Array
-					.from(
-						(
-							arguments
-						)
-					)
-				);
-
-				const contextCache = (
-					Object
-					.assign(
-						...	(
-								parameterList
-								.filter(
-									(
-										( parameter ) => (
-												(
-														typeof
-														parameter
-													==	"object"
-												)
-
-											&&	(
-														parameter
-													!==	null
-												)
-
-											&&	(
-														Array
-														.isArray(
-															(
-																parameter
-															)
-														)
-													!==	true
-												)
-										)
-									)
-								)
-								.concat(
-									(
-										[
-											{ }
-										]
-									)
+			function resolveParameterList( parameterList ){
+				(
+						parameterList
+					=	(
+							Array
+							.from(
+								(
+									arguments
 								)
 							)
-					)
+						)
 				);
 
-				const providerCache = (
-					parameterList
-					.reduce(
-						(
-							( list, parameter ) => {
-								if(
-										(
-												typeof
-												parameter
-											==	"function"
-										)
-								){
-									list
-									.push(
-										(
-											parameter
-										)
-									);
-								}
-								else if(
-										(
-												Array
-												.isArray(
+				return	(
+							[
+								(
+									Object
+									.assign(
+										...	(
+												parameterList
+												.filter(
 													(
-														parameter
+														( parameter ) => (
+																(
+																		typeof
+																		parameter
+																	==	"object"
+																)
+
+															&&	(
+																		parameter
+																	!==	null
+																)
+
+															&&	(
+																		Array
+																		.isArray(
+																			(
+																				parameter
+																			)
+																		)
+																	!==	true
+																)
+														)
 													)
 												)
-											===	true
-										)
-								){
-									parameter
-									.forEach(
+												.concat(
+													(
+														[
+															{ }
+														]
+													)
+												)
+											)
+									)
+								),
+
+								(
+									parameterList
+									.reduce(
 										(
-											( provider ) => {
+											( list, parameter ) => {
 												if(
 														(
 																typeof
-																provider
+																parameter
 															==	"function"
 														)
 												){
 													list
 													.push(
 														(
-															provider
+															parameter
 														)
 													);
 												}
+												else
+												if(
+														(
+																Array
+																.isArray(
+																	(
+																		parameter
+																	)
+																)
+															===	true
+														)
+												){
+													parameter
+													.forEach(
+														(
+															( provider ) => {
+																if(
+																		(
+																				typeof
+																				provider
+																			==	"function"
+																		)
+																){
+																	list
+																	.push(
+																		(
+																			provider
+																		)
+																	);
+																}
+															}
+														)
+													);
+												}
+
+												return	(
+															list
+														);
 											}
+										),
+
+										(
+											[ ]
 										)
-									);
-								}
-
-								return	(
-											list
-										);
-							}
-						),
-
-						(
-							[ ]
-						)
-					)
-				);
-
-				return	(
-							[
-								contextCache,
-								providerCache
+									)
+								)
 							]
 						);
 			}
@@ -364,6 +365,26 @@ const Result = (
 										}
 									),
 
+									"get": (
+										function get( solveResult, property, target ){
+											if(
+													(
+															property
+														===	"revokeSolveResult"
+													)
+											){
+												return	(
+															revokeSolveResult
+														);
+											}
+											else{
+												return	(
+															result[ property ]
+														);
+											}
+										}
+									),
+
 									"getPrototypeOf": (
 										function getPrototypeOf( target ){
 											return	(
@@ -449,7 +470,8 @@ ResultPrototype.solveResult = (
 					)
 				);
 			}
-			else if(
+			else
+			if(
 					(
 							provider
 							.name
@@ -498,7 +520,8 @@ ResultPrototype.solveResult = (
 						this
 					);
 		}
-		else if(
+		else
+		if(
 				(
 						arguments
 						.length
