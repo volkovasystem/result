@@ -1,7 +1,7 @@
 {
 	"name": "@volkovasystem/result",
 	"alias": "result",
-	"version": "0.0.6",
+	"version": "0.0.7",
 	"description": "Result class interface for procedure return.",
 	"main": "result.js",
 	"scripts": {
